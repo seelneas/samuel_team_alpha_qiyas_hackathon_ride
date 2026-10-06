@@ -1,0 +1,40 @@
+column,dtype,source,in_train,in_test,description,known_at_forecast_time
+record_id,str,trips,True,False,identifier / raw / target,True
+zone,str,trips,True,True,identifier / raw / target,True
+datetime,datetime64[ns],trips,True,True,identifier / raw / target,True
+trips,float64,trips,True,False,identifier / raw / target,False
+avg_fare_birr,float64,trips,True,False,raw,False
+avg_wait_min,float64,trips,True,False,raw,False
+active_drivers,int64,trips,True,False,raw,False
+hour,int32,calendar (derived from datetime),True,True,datetime.hour,True
+day_of_week,int32,calendar (derived from datetime),True,True,datetime.dayofweek,True
+is_weekend,int64,calendar (derived from datetime),True,True,day_of_week >= 5,True
+month,int32,calendar (derived from datetime),True,True,identifier / raw / target,True
+day_of_month,int32,calendar (derived from datetime),True,True,identifier / raw / target,True
+is_payday_window,int64,calendar (derived from datetime),True,True,day >= 25 or day <= 3,True
+is_public_holiday,int64,events,True,True,date in public_holiday events,True
+is_school_break,int64,events,True,True,date in school_break events,True
+days_since_start,float64,calendar (derived from datetime),True,True,(datetime - 2025-01-01) in days,True
+hour_sin,float64,calendar (derived from datetime),True,True,sin/cos(2π·hour/24),True
+hour_cos,float64,calendar (derived from datetime),True,True,sin/cos(2π·hour/24),True
+temp_c,float64,weather,True,True,"cleaned, °F fixed, interpolated",True
+rain_mm,float64,weather,True,True,"hourly rain, sentinel removed",True
+humidity_pct,float64,weather,True,True,"cleaned, °F fixed, interpolated",True
+wind_kmh,float64,weather,True,True,"cleaned, °F fixed, interpolated",True
+rain_3h_sum,float64,weather,True,True,rolling 3h sum of rain_mm,True
+is_raining,int64,weather,True,True,identifier / raw / target,True
+rain_class,str,weather,True,True,none/light(<2.5)/moderate(<7.6)/heavy,True
+event_in_window,float64,events,True,True,"zone-hour in [start-2h, end+2h]",True
+event_attendance,float64,events,True,True,max parsed attendance in window,True
+football_window,float64,events,True,True,identifier / raw / target,True
+concert_window,float64,events,True,True,identifier / raw / target,True
+conference_window,float64,events,True,True,identifier / raw / target,True
+road_closure_window,float64,events,True,True,type flags,True
+event_pre,float64,events,True,True,phase of window,True
+event_during,float64,events,True,True,phase of window,True
+event_post,float64,events,True,True,phase of window,True
+lag_336h,float64,trips (history),True,True,"trips 14/21 days earlier, same zone-hour",True
+lag_504h,float64,trips (history),True,True,"trips 14/21 days earlier, same zone-hour",True
+roll_mean_168h_lag336,float64,trips (history),True,True,mean of 168 h ending 336 h earlier,True
+row_id,str,trips,False,True,identifier / raw / target,True
+pickup_hour,str,trips,False,True,identifier / raw / target,True

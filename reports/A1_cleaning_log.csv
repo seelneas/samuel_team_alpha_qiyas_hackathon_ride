@@ -1,0 +1,24 @@
+file,columns,issue_type,rows_affected,pct_rows,fix_applied,why
+ride_demand_train,pickup_hour,mixed timestamp formats (3),38574,45.14,regex-detected explicit formats; +03:00 converted to EAT,avoid day/month swaps and clock drift
+ride_demand_train,zone,inconsistent zone spelling (55 variants),32391,37.9,case/space normalization + alias map to 12 labels,one key per zone across all tables
+ride_demand_train,"zone, pickup_hour",duplicate zone-hour rows,846,0.99,kept first occurrence,exactly one row per zone-hour
+ride_demand_train,trips,sentinel -1 (no reading),675,0.79,"set to NaN, row excluded from training target",-1 trips is impossible
+ride_demand_train,trips,missing target,837,0.98,row excluded from training target (kept in grid for lags),cannot learn from unknown target
+ride_demand_train,trips,data-entry spikes (trips > 4x active drivers),123,0.14,set to NaN,e.g. 640 trips with 56 drivers; real event peaks keep the driver ratio
+ride_demand_train,avg_wait_min,sentinel -1,1692,1.98,set to NaN,negative wait impossible (analysis-only column)
+ride_demand_train,avg_fare_birr,missing values,1269,1.48,left NaN (not a model input),"operational column, analysis only"
+ride_demand_train,(rows),platform outage – whole city missing,42,0.58,not imputed; hours excluded from training,"no demand was recorded, imputing would invent data"
+ride_demand_train,(rows),late-launching zone (Ayat) – no rows before launch,1752,2.0,zone-hours before launch excluded,zone did not exist; not zero demand
+weather_hourly,timestamp,UTC clock + 2 formats,7538,100.0,"parsed explicitly, converted UTC -> EAT (+3h)",trip table is on EAT (see A2c proof)
+weather_hourly,rain_mm,sentinel -9999,76,1.01,"set to NaN, later filled",sentinel code for no reading
+weather_hourly,temp_c,values in Fahrenheit for part of July,353,4.68,converted (F-32)*5/9,40-77 'C is impossible in Addis; converted values match neighbours
+weather_hourly,timestamp,duplicate hours with conflicting values,75,0.99,averaged numeric values per hour,many-to-one join needs one row per hour
+weather_hourly,timestamp,missing hours (gaps),192,2.52,"reindexed to full hourly grid; interpolated (≤6h), rain filled 0",every zone-hour needs weather
+weather_hourly,"temp_c, humidity_pct",missing values,193,2.56,time interpolation,smooth variables
+events_calendar,event_type,inconsistent spelling (20 variants),94,56.97,normalized to 8 labels,group events by type
+events_calendar,status,case/whitespace variants,28,16.97,lower + strip,reliable cancelled filter
+events_calendar,zone,"spelling, extra text, multi-zone and city-wide values",87,52.73,"split on '&', strip '(...)', alias map, citywide -> all 12",interval join needs canonical zone keys
+events_calendar,"start_datetime, end_datetime","3 timestamp formats incl. 'Feb 06, 2025 08:00 PM'",170,51.52,explicit regex formats,no day/month confusion
+events_calendar,end_datetime,missing or earlier than start,5,3.03,replaced by start + median duration of that event type,interval needs a valid end
+events_calendar,expected_attendance,"free text ('approx 34000', '34,756') and blanks",111,67.27,parsed to number; blanks -> 0 in features,usable numeric crowd size
+events_calendar,status,cancelled events,6,3.64,excluded from event features (kept in file for B3.4),did not take place

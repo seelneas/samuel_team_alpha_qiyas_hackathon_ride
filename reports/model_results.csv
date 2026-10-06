@@ -1,0 +1,9 @@
+model,rmse,mae,rmse_std,is_baseline
+Mean predictor,27.535,20.688,,True
+Seasonal-naive (all history),11.301,7.359,1.8287189426761274,True
+Seasonal-naive (last 4 weeks),9.943,6.638,,True
+Ridge regression,11.29477588071147,7.5452165514778935,,False
+Random forest,10.305707063824451,6.758420159677336,,False
+LightGBM (raw target),9.08827407902341,6.083531258698287,,False
+LightGBM (level-normalised target),9.209116050073472,6.109667560178742,,False
+LightGBM optimised (Poisson + long lags + profile),8.471286076004656,5.853966073075831,0.7058278410594933,False
