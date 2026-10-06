@@ -47,6 +47,18 @@ submission/        team_alpha_submission.csv  ← final forecast
 app/               Streamlit demo for exploring forecasts by zone and date
 ```
 
+## Where each deliverable lives
+
+| Deliverable | Location |
+|---|---|
+| **A** Cleaning & integration | `notebooks/01_cleaning_and_integration.ipynb`, `reports/A_cleaning_and_integration.html`, `reports/A1_cleaning_log.csv`, `data/processed/master_train.csv`, `master_test.csv`, `data_dictionary_master.csv` |
+| **B** Analysis report | `notebooks/02_analysis_report.ipynb`, `reports/B_analysis_report.html` |
+| **C** Visualisations | `notebooks/03_visualizations.ipynb`, `figures/fig01…fig12*.png`, `figures/figure_captions.md` |
+| **D** Modelling & evaluation | `notebooks/04_modeling_and_evaluation.ipynb`, `reports/D_model_evaluation.html`, `reports/model_results.csv`, `models/final_model.joblib` |
+| **E** Demo app | `app/` and the live link above |
+| **F** Slides | `presentation/team_alpha_slides.pptx` |
+| **G** Structure & reproducibility | this README, `requirements.txt`, `submission/team_alpha_submission.csv` |
+
 ## How to run it
 
 Use the project's virtual environment. Other Python installs, such as base Anaconda, are missing `lightgbm` and `pyarrow`, and the saved model cannot load without `pyarrow`.
@@ -63,7 +75,14 @@ python -m src.cleaning   # raw data → data/processed/
 python -m src.train      # trains and saves models/final_model.joblib
 python -m src.predict    # writes submission/team_alpha_submission.csv
 ```
-Or run the notebooks in order (01 → 04), with `.venv` selected as the kernel.
+Or run the notebooks top to bottom, in this order (each one uses the previous one's outputs):
+```bash
+jupyter nbconvert --to notebook --execute --inplace notebooks/01_cleaning_and_integration.ipynb
+jupyter nbconvert --to notebook --execute --inplace notebooks/02_analysis_report.ipynb
+jupyter nbconvert --to notebook --execute --inplace notebooks/03_visualizations.ipynb
+jupyter nbconvert --to notebook --execute --inplace notebooks/04_modeling_and_evaluation.ipynb
+```
+In VS Code or Jupyter, select `.venv` as the kernel and use "Run All".
 
 **Demo app:** use the [live version](https://samuelteamalphaqiyashackathonridegit-8r5qwklneappykxjvr5kc8c.streamlit.app/) or run it locally:
 ```bash
