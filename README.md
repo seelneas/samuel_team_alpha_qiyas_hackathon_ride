@@ -2,6 +2,8 @@
 
 Qiyas AI Hackathon. We forecast how many ride requests each zone of Addis Ababa will get, **hour by hour, for 1–14 November 2025**, so a ride-hailing company can place drivers before demand arrives.
 
+**Live demo app:** https://samuelteamalphaqiyashackathonridegit-8r5qwklneappykxjvr5kc8c.streamlit.app/
+
 **Team:** Nejat Akmel · Lydia Million · Amanuel Ayalew · Samuel Beshir · Selamawit Elias · Mihiretab
 
 ---
@@ -63,7 +65,7 @@ python -m src.predict    # writes submission/team_alpha_submission.csv
 ```
 Or run the notebooks in order (01 → 04), with `.venv` selected as the kernel.
 
-**Demo app:**
+**Demo app:** use the [live version](https://samuelteamalphaqiyashackathonridegit-8r5qwklneappykxjvr5kc8c.streamlit.app/) or run it locally:
 ```bash
 streamlit run app/app.py
 ```
